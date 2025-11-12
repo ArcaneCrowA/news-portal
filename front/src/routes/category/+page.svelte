@@ -1,14 +1,18 @@
 <script>
-    import { onMount, createEventDispatcher } from "svelte";
+    import { onMount } from "svelte";
+    import { page } from "$app/stores";
     import { getCategoryPosts, getCategories } from "$lib/api.js";
-
-    export let slug;
-    const dispatch = createEventDispatcher();
 
     let posts = [];
     let categories = [];
     let loading = true;
     let error = null;
+    let slug;
+
+    $: {
+        slug = $page.params.slug;
+        load();
+    }
 
     // load posts for the category
     async function load() {
@@ -24,23 +28,10 @@
             loading = false;
         }
     }
-
-    // when slug changes, reload
-    $: if (slug) {
-        load();
-    }
-
-    function goHome() {
-        dispatch("navigate", { route: "home", params: {} });
-    }
-
-    function openPost(id) {
-        dispatch("navigate", { route: "detail", params: { id } });
-    }
 </script>
 
 <nav>
-    <button on:click={goHome}>← Home</button>
+    <a href="/">← Home</a>
 </nav>
 
 {#if loading}
@@ -56,11 +47,7 @@
         <ul>
             {#each posts as p}
                 <li>
-                    <a
-                        href={`/posts/${p.id}`}
-                        on:click|preventDefault={() => openPost(p.id)}
-                        >{p.title}</a
-                    >
+                    <a href="/post/{p.id}">{p.title}</a>
                     <div>
                         <small>{new Date(p.created_at).toLocaleString()}</small>
                     </div>
@@ -74,16 +61,7 @@
         <ul>
             {#each categories as c}
                 <li>
-                    <a
-                        href="#category"
-                        on:click|preventDefault={() =>
-                            dispatch("navigate", {
-                                route: "category",
-                                params: { slug: c.slug },
-                            })}
-                    >
-                        {c.name}
-                    </a>
+                    <a href="/category/{c.slug}">{c.name}</a>
                 </li>
             {/each}
         </ul>

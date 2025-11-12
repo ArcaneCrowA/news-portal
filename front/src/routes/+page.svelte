@@ -1,7 +1,6 @@
 <script>
     import { onMount } from "svelte";
     import { getPosts, getCategories } from "$lib/api.js";
-    export let navigate;
 
     let posts = [];
     let categories = [];
@@ -16,9 +15,7 @@
 <ul>
     {#each posts as p}
         <li>
-            <a href="#detail" on:click={() => navigate("detail", { id: p.id })}
-                >{p.title}</a
-            >
+            <a href="/post/{p.id}">{p.title}</a>
         </li>
     {/each}
 </ul>
@@ -27,11 +24,7 @@
 <ul>
     {#each categories as c}
         <li>
-            <a
-                href="#category"
-                on:click={() => navigate("category", { slug: c.slug })}
-                >{c.name}</a
-            >
+            <a href="/category/{c.slug}">{c.name}</a>
         </li>
     {/each}
 </ul>

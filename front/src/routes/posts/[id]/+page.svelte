@@ -1,16 +1,22 @@
 <script>
     import { onMount } from "svelte";
+    import { page } from "$app/stores";
     import { getPost, getComments, addComment } from "$lib/api.js";
-    export let id;
 
     let post = {};
     let comments = [];
     let newComment = "";
+    let id;
 
-    onMount(async () => {
+    $: {
+        id = $page.params.id;
+        load();
+    }
+
+    async function load() {
         post = await getPost(id);
         comments = await getComments(id);
-    });
+    }
 
     async function submitComment() {
         await addComment({ post_id: id, content: newComment });

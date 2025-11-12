@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { createPost, getCategories } from "$lib/api.js";
+    import { goto } from "$app/navigation";
 
     let title = "";
     let content = "";
@@ -13,7 +14,7 @@
 
     async function submit() {
         await createPost({ title, content, category_id });
-        alert("Post created!");
+        goto("/");
     }
 </script>
 
