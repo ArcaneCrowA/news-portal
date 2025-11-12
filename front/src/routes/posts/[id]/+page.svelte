@@ -1,5 +1,6 @@
 <script>
-    import { getPost, getComments, addComment } from "../lib/api.js";
+    import { onMount } from "svelte";
+    import { getPost, getComments, addComment } from "$lib/api.js";
     export let id;
 
     let post = {};

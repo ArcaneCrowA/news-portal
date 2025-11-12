@@ -1,5 +1,6 @@
 <script>
-    import { createPost, getCategories } from "../lib/api.js";
+    import { onMount } from "svelte";
+    import { createPost, getCategories } from "$lib/api.js";
 
     let title = "";
     let content = "";

@@ -1,6 +1,6 @@
 <script>
     import { onMount, createEventDispatcher } from "svelte";
-    import { getCategoryPosts, getCategories } from "../lib/api.js";
+    import { getCategoryPosts, getCategories } from "$lib/api.js";
 
     export let slug;
     const dispatch = createEventDispatcher();
@@ -56,7 +56,9 @@
         <ul>
             {#each posts as p}
                 <li>
-                    <a href="#" on:click|preventDefault={() => openPost(p.id)}
+                    <a
+                        href={`/posts/${p.id}`}
+                        on:click|preventDefault={() => openPost(p.id)}
                         >{p.title}</a
                     >
                     <div>

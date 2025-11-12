@@ -1,5 +1,6 @@
 <script>
-    import { getPosts, getCategories } from "../lib/api.js";
+    import { onMount } from "svelte";
+    import { getPosts, getCategories } from "$lib/api.js";
     export let navigate;
 
     let posts = [];
