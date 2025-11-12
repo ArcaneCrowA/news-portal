@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:17
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=news_db
+      - POSTGRES_USER=news_user
+      - POSTGRES_PASSWORD=news_password
+
+  backend:
+    build: ./back
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://news_user:news_password@postgres/news_db
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./front
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
