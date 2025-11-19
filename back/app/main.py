@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.db import init_db
 
-from .routers import categories, comments, posts
+from .routers import books, reviews
 
-app = FastAPI(title="FastAPI News API")
+app = FastAPI(title="FastAPI Book API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,11 +15,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(posts.router, prefix="/api/posts", tags=["posts"])
-app.include_router(comments.router, prefix="/api/comments", tags=["comments"])
-app.include_router(
-    categories.router, prefix="/api/categories", tags=["categories"]
-)
+app.include_router(books.router, prefix="/api/books", tags=["books"])
+app.include_router(reviews.router, prefix="/api/reviews", tags=["reviews"])
 
 
 @app.on_event("startup")

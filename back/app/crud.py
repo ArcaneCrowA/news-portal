@@ -1,70 +1,32 @@
-from typing import List, Optional
-
 from sqlmodel import Session, select
 
-from .models import Category, Comment, Post
+from . import models
 
 
-def get_post(session: Session, post_id: int) -> Optional[Post]:
-    return session.get(Post, post_id)
+def get_book(session: Session, book_id: int):
+    return session.get(models.Book, book_id)
 
 
-def list_posts(session: Session, offset: int = 0, limit: int = 10):
-    stmt = (
-        select(Post)
-        .order_by(Post.created_at.desc())
-        .offset(offset)
-        .limit(limit)
-    )
-    return session.exec(stmt).all()
+def list_books(session: Session, offset: int = 0, limit: int = 10):
+    return session.exec(select(models.Book).offset(offset).limit(limit)).all()
 
 
-def list_posts_by_category(
-    session: Session, category_slug: str, offset=0, limit=10
-):
-    stmt = (
-        select(Post)
-        .join(Category)
-        .where(Category.slug == category_slug)
-        .order_by(Post.created_at.desc())
-        .offset(offset)
-        .limit(limit)
-    )
-    return session.exec(stmt).all()
-
-
-def create_post(session: Session, post: Post) -> Post:
-    session.add(post)
+def create_book(session: Session, book: models.Book):
+    session.add(book)
     session.commit()
-    session.refresh(post)
-    return post
+    session.refresh(book)
+    return book
 
 
-def update_post(session: Session, post: Post, **data) -> Post:
-    for key, value in data.items():
-        setattr(post, key, value)
-    session.add(post)
+def create_review(session: Session, review: models.Review):
+    session.add(review)
     session.commit()
-    session.refresh(post)
-    return post
+    session.refresh(review)
+    return review
 
 
-def delete_post(session: Session, post: Post):
-    session.delete(post)
+def create_author(session: Session, author: models.Author):
+    session.add(author)
     session.commit()
-
-
-def create_comment(session: Session, comment: Comment) -> Comment:
-    session.add(comment)
-    session.commit()
-    session.refresh(comment)
-    return comment
-
-
-def get_category(session: Session, slug: str) -> Optional[Category]:
-    stmt = select(Category).where(Category.slug == slug)
-    return session.exec(stmt).first()
-
-
-def list_categories(session: Session) -> List[Category]:
-    return session.exec(select(Category)).all()
+    session.refresh(author)
+    return author
