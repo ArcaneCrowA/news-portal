@@ -1,0 +1,27 @@
+{
+  "project_name": "book_platform",
+  "lsp": {
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "organizeImports": true,
+          "lineLength": 80,
+          "fixAll": true
+        }
+      }
+    },
+    "pyrefly": {
+      "settings": {
+        "python": {
+          "pythonPath": "backend/.venv/bin/python3"
+        },
+        "pyrefly": {
+          "project_includes": ["*.py"],
+          "project_excludes": ["/.[!/.]*", ".venv/"],
+          "search_path": ["."],
+          "ignore_errors_in_generated_code": true
+        }
+      }
+    }
+  }
+}
