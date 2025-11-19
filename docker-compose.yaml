@@ -18,16 +18,9 @@ services:
       - postgres
 
   frontend:
-    build:
-      context: ./front
-      args:
-        - VITE_API_URL=http://localhost:8000
+    build: ./front
     ports:
-      - "5173:3000"
-    environment:
-      - VITE_API_URL=http://backend:8000
-    depends_on:
-      - backend
+      - "5173:80"
 
 volumes:
   postgres_data:
